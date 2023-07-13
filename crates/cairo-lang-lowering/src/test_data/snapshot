@@ -22,8 +22,8 @@ extern fn bar(x: @felt252) nopanic;
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252, v2: @core::felt252) <- snapshot(v0)
-  () <- test::bar(v2)
+  (v1: core::felt252, v2: @core::felt252) <- snapshot(v0 /* x */)
+  () <- test::bar(v2 /* @x */)
   (v3: ()) <- struct_construct()
 End:
   Return(v3)
@@ -62,11 +62,11 @@ fn bar(a: @Array::<felt252>, b: @felt252) {
 Parameters: v0: @test::A
 blk0 (root):
 Statements:
-  (v1: @core::array::Array::<core::felt252>, v2: @core::felt252) <- struct_destructure(v0)
-  (v3: @core::array::Array::<core::felt252>, v4: @core::felt252) <- struct_destructure(v0)
-  (v5: ()) <- test::bar(v1, v4)
-  (v6: @core::array::Array::<core::felt252>, v7: @core::felt252) <- struct_destructure(v0)
-  (v8: ()) <- test::bar(v6, v7)
+  (v1: @core::array::Array::<core::felt252>, v2: @core::felt252) <- struct_destructure(v0 /* orig */)
+  (v3: @core::array::Array::<core::felt252>, v4: @core::felt252) <- struct_destructure(v0 /* orig */)
+  (v5: ()) <- test::bar(v1 /* orig.a */, v4 /* orig.b */)
+  (v6: @core::array::Array::<core::felt252>, v7: @core::felt252) <- struct_destructure(v0 /* orig */)
+  (v8: ()) <- test::bar(v6 /* a */, v7 /* b */)
 End:
   Return(v0)
 
@@ -112,7 +112,7 @@ Parameters: v0: @test::A
 blk0 (root):
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* orig */) {
     A::A(v1) => blk1,
     A::B(v3) => blk2,
     A::C(v5) => blk3,
@@ -120,20 +120,20 @@ End:
 
 blk1:
 Statements:
-  (v2: ()) <- test::bar0(v1)
+  (v2: ()) <- test::bar0(v1 /* a */)
 End:
   Goto(blk4, {})
 
 blk2:
 Statements:
-  (v4: ()) <- test::bar1(v3)
+  (v4: ()) <- test::bar1(v3 /* b */)
 End:
   Goto(blk4, {})
 
 blk3:
 Statements:
-  (v6: @core::felt252, v7: @core::array::Array::<core::felt252>) <- struct_destructure(v5)
-  (v8: ()) <- test::bar2(v6, v7)
+  (v6: @core::felt252, v7: @core::array::Array::<core::felt252>) <- struct_destructure(v5 /* (c, d) */)
+  (v8: ()) <- test::bar2(v6 /* c */, v7 /* d */)
 End:
   Goto(blk4, {})
 
@@ -167,7 +167,7 @@ foo
 Parameters: v0: @core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- desnap(v0)
+  (v1: core::felt252) <- desnap(v0 /* value */)
 End:
   Return(v1)
 
@@ -229,8 +229,8 @@ extern fn bar(x: @usize) nopanic;
 Parameters: v0: test::A
 blk0 (root):
 Statements:
-  (v1: core::integer::u32) <- struct_destructure(v0)
-  (v2: core::integer::u32, v3: @core::integer::u32) <- snapshot(v1)
-  () <- test::bar(v3)
+  (v1: core::integer::u32) <- struct_destructure(v0 /* a */)
+  (v2: core::integer::u32, v3: @core::integer::u32) <- snapshot(v1 /* a */)
+  () <- test::bar(v3 /* @a.b */)
 End:
   Return(v2)

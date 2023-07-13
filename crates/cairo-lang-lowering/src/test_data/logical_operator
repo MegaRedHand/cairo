@@ -26,7 +26,7 @@ Parameters: v0: core::bool, v1: core::bool
 blk0 (root):
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* a */) {
     bool::False(v9) => blk1,
     bool::True(v10) => blk2,
   })
@@ -58,7 +58,7 @@ End:
 blk5:
 Statements:
   (v12: ()) <- struct_construct()
-  (v13: core::bool) <- bool::True(v12)
+  (v13: core::bool) <- bool::True(v12 /* (a && extern_get_bool()) || get_bool() */)
 End:
   Goto(blk6, {v13 -> v17})
 

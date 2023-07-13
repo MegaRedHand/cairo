@@ -19,7 +19,7 @@ foo
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- core::Felt252Neg::neg(v0)
+  (v1: core::felt252) <- core::Felt252Neg::neg(v0 /* n */)
 End:
   Return(v1)
 
@@ -48,7 +48,7 @@ End:
 
 blk4:
 Statements:
-  (v4: core::felt252) <- core::felt252_mul(v0, v2)
+  (v4: core::felt252) <- core::felt252_mul(v0 /* lhs */, v2 /* rhs */)
 End:
   Goto(blk3, {v4 -> v3})
 
@@ -86,7 +86,7 @@ Parameters: v0: core::option::Option::<core::felt252>
 blk0 (root):
 Statements:
   (v1: core::felt252) <- 2u
-  (v2: core::felt252) <- test::bar::<core::felt252, core::felt252Drop>(v0, v1)
+  (v2: core::felt252) <- test::bar::<core::felt252, core::felt252Drop>(v0 /* val */, v1 /* 2 */)
 End:
   Return(v2)
 
@@ -106,7 +106,7 @@ End:
 blk2:
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* val */) {
     Option::Some(v3) => blk3,
     Option::None(v4) => blk4,
   })
@@ -155,7 +155,7 @@ fn bar(a: felt252, b: felt252) -> felt252  {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0, v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */, v0 /* n */)
 End:
   Return(v1)
 
@@ -183,7 +183,7 @@ End:
 
 blk4:
 Statements:
-  (v3: core::felt252) <- core::felt252_add(v0, v0)
+  (v3: core::felt252) <- core::felt252_add(v0 /* lhs */, v0 /* rhs */)
 End:
   Goto(blk3, {v3 -> v2})
 
@@ -221,8 +221,8 @@ fn bar2(a: felt252, b: felt252) -> felt252 implicits()  {
 Parameters: v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
-  (v2: core::felt252) <- core::Felt252Add::add(v0, v1)
-  (v3: core::felt252) <- test::bar(v2, v1)
+  (v2: core::felt252) <- core::Felt252Add::add(v0 /* a */, v1 /* b */)
+  (v3: core::felt252) <- test::bar(v2 /* a + b */, v1 /* b */)
 End:
   Return(v3)
 
@@ -240,7 +240,7 @@ End:
 
 blk2:
 Statements:
-  (v4: core::felt252) <- core::felt252_add(v0, v1)
+  (v4: core::felt252) <- core::felt252_add(v0 /* lhs */, v1 /* rhs */)
 End:
   Goto(blk1, {v4 -> v2})
 
@@ -281,7 +281,7 @@ End:
 
 blk10:
 Statements:
-  (v10: core::felt252) <- core::felt252_mul(v2, v1)
+  (v10: core::felt252) <- core::felt252_mul(v2 /* lhs */, v1 /* rhs */)
 End:
   Goto(blk9, {v10 -> v8})
 
@@ -292,7 +292,7 @@ End:
 
 blk12:
 Statements:
-  (v11: core::felt252) <- core::felt252_add(v5, v6)
+  (v11: core::felt252) <- core::felt252_add(v5 /* lhs */, v6 /* rhs */)
 End:
   Goto(blk11, {v11 -> v7})
 
@@ -303,7 +303,7 @@ End:
 
 blk14:
 Statements:
-  (v12: core::felt252) <- core::felt252_mul(v1, v2)
+  (v12: core::felt252) <- core::felt252_mul(v1 /* lhs */, v2 /* rhs */)
 End:
   Goto(blk13, {v12 -> v9})
 
@@ -346,7 +346,7 @@ fn third(a: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::first(v0)
+  (v1: core::felt252) <- test::first(v0 /* a */)
 End:
   Return(v1)
 
@@ -394,7 +394,7 @@ End:
 
 blk8:
 Statements:
-  (v5: core::felt252) <- core::felt252_mul(v0, v0)
+  (v5: core::felt252) <- core::felt252_mul(v0 /* lhs */, v0 /* rhs */)
 End:
   Goto(blk7, {v5 -> v4})
 
@@ -427,7 +427,7 @@ blk0 (root):
 Statements:
   (v0: core::array::Array::<core::felt252>) <- core::array::ArrayDefault::<core::felt252>::default()
   (v1: core::felt252) <- 5u
-  (v3: core::array::Array::<core::felt252>, v2: ()) <- core::array::ArrayImpl::<core::felt252>::append(v0, v1)
+  (v3: core::array::Array::<core::felt252>, v2: ()) <- core::array::ArrayImpl::<core::felt252>::append(v0 /* arr */, v1 /* 5 */)
 End:
   Return(v2)
 
@@ -456,7 +456,7 @@ End:
 
 blk4:
 Statements:
-  (v5: core::array::Array::<core::felt252>) <- core::array::array_append::<core::felt252>(v0, v1)
+  (v5: core::array::Array::<core::felt252>) <- core::array::array_append::<core::felt252>(v0 /* self */, v1 /* value */)
   (v6: ()) <- struct_construct()
 End:
   Goto(blk3, {v5 -> v3, v6 -> v2})
@@ -507,16 +507,16 @@ Parameters: v0: core::felt252
 blk0 (root):
 Statements:
   (v1: core::felt252) <- 2u
-  (v2: core::felt252) <- core::Felt252Sub::sub(v0, v1)
+  (v2: core::felt252) <- core::Felt252Sub::sub(v0 /* a */, v1 /* 2 */)
 End:
-  Match(match core::felt252_is_zero(v2) {
+  Match(match core::felt252_is_zero(v2 /* a == 2 */) {
     IsZeroResult::Zero => blk1,
     IsZeroResult::NonZero(v4) => blk2,
   })
 
 blk1:
 Statements:
-  (v3: core::felt252) <- test::bar(v0)
+  (v3: core::felt252) <- test::bar(v0 /* a */)
 End:
   Goto(blk3, {v3 -> v5})
 
@@ -556,14 +556,14 @@ End:
 blk4:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v2) {
+  Match(match core::felt252_is_zero(v2 /* a == 2 */) {
     IsZeroResult::Zero => blk1,
     IsZeroResult::NonZero(v4) => blk2,
   })
 
 blk5:
 Statements:
-  (v6: core::felt252) <- core::felt252_sub(v0, v1)
+  (v6: core::felt252) <- core::felt252_sub(v0 /* lhs */, v1 /* rhs */)
 End:
   Goto(blk4, {v6 -> v2})
 
@@ -575,7 +575,7 @@ End:
 blk7:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* a */) {
     IsZeroResult::Zero => blk8,
     IsZeroResult::NonZero(v7) => blk9,
   })
@@ -629,9 +629,9 @@ fn bar2(a: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
-  (v2: core::felt252) <- test::bar2(v0)
-  (v3: core::felt252) <- core::Felt252Add::add(v1, v2)
+  (v1: core::felt252) <- test::bar(v0 /* a */)
+  (v2: core::felt252) <- test::bar2(v0 /* a */)
+  (v3: core::felt252) <- core::Felt252Add::add(v1 /* bar(a) */, v2 /* bar2(a) */)
 End:
   Return(v3)
 
@@ -681,7 +681,7 @@ End:
 
 blk8:
 Statements:
-  (v7: core::felt252) <- core::felt252_add(v1, v2)
+  (v7: core::felt252) <- core::felt252_add(v1 /* lhs */, v2 /* rhs */)
 End:
   Goto(blk7, {v7 -> v3})
 
@@ -719,9 +719,9 @@ fn bar2(a: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
-  (v2: core::felt252) <- test::bar2(v0)
-  (v3: core::felt252) <- core::Felt252Add::add(v1, v2)
+  (v1: core::felt252) <- test::bar(v0 /* a */)
+  (v2: core::felt252) <- test::bar2(v0 /* a */)
+  (v3: core::felt252) <- core::Felt252Add::add(v1 /* bar(a) */, v2 /* bar2(a) */)
 End:
   Return(v3)
 
@@ -729,8 +729,8 @@ End:
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
-  (v2: core::felt252) <- test::bar2(v0)
+  (v1: core::felt252) <- test::bar(v0 /* a */)
+  (v2: core::felt252) <- test::bar2(v0 /* a */)
 End:
   Goto(blk2, {})
 
@@ -741,7 +741,7 @@ End:
 
 blk2:
 Statements:
-  (v4: core::felt252) <- core::felt252_add(v1, v2)
+  (v4: core::felt252) <- core::felt252_add(v1 /* lhs */, v2 /* rhs */)
 End:
   Goto(blk1, {v4 -> v3})
 
@@ -782,7 +782,7 @@ Parameters:
 blk0 (root):
 Statements:
   (v0: core::felt252) <- 0u
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* 0 */)
 End:
   Return(v1)
 
@@ -802,7 +802,7 @@ End:
 blk2:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* a */) {
     IsZeroResult::Zero => blk3,
     IsZeroResult::NonZero(v2) => blk4,
   })
@@ -850,7 +850,7 @@ fn identity(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::identity(v0)
+  (v1: core::felt252) <- test::identity(v0 /* n */)
 End:
   Return(v1)
 
@@ -914,7 +914,7 @@ fn bar2(a: u128, b: u128) -> u128 {
 Parameters: v0: core::integer::u128, v1: core::integer::u128
 blk0 (root):
 Statements:
-  (v2: core::integer::u128) <- test::bar1(v0, v1)
+  (v2: core::integer::u128) <- test::bar1(v0 /* a */, v1 /* b */)
 End:
   Return(v2)
 
@@ -932,9 +932,9 @@ End:
 
 blk2:
 Statements:
-  (v3: core::integer::u128, v4: @core::integer::u128) <- snapshot(v0)
+  (v3: core::integer::u128, v4: @core::integer::u128) <- snapshot(v0 /* a */)
   (v5: core::integer::u128) <- 1u
-  (v6: core::integer::u128, v7: @core::integer::u128) <- snapshot(v5)
+  (v6: core::integer::u128, v7: @core::integer::u128) <- snapshot(v5 /* 1_u128 */)
 End:
   Goto(blk7, {})
 
@@ -956,17 +956,17 @@ End:
 blk6:
 Statements:
 End:
-  Match(match_enum(v8) {
+  Match(match_enum(v8 /* a == 1_u128 */) {
     bool::False(v9) => blk4,
     bool::True(v10) => blk3,
   })
 
 blk7:
 Statements:
-  (v12: core::integer::u128) <- desnap(v4)
-  (v13: core::integer::u128) <- desnap(v7)
+  (v12: core::integer::u128) <- desnap(v4 /* lhs */)
+  (v13: core::integer::u128) <- desnap(v7 /* rhs */)
 End:
-  Match(match core::integer::u128_eq(v12, v13) {
+  Match(match core::integer::u128_eq(v12 /* *lhs */, v13 /* *rhs */) {
     bool::False => blk8,
     bool::True => blk9,
   })
@@ -974,14 +974,14 @@ End:
 blk8:
 Statements:
   (v14: ()) <- struct_construct()
-  (v15: core::bool) <- bool::False(v14)
+  (v15: core::bool) <- bool::False(v14 /* u128_eq(*lhs, *rhs) */)
 End:
   Goto(blk10, {v15 -> v16})
 
 blk9:
 Statements:
   (v17: ()) <- struct_construct()
-  (v18: core::bool) <- bool::True(v17)
+  (v18: core::bool) <- bool::True(v17 /* u128_eq(*lhs, *rhs) */)
 End:
   Goto(blk10, {v18 -> v16})
 
@@ -997,7 +997,7 @@ End:
 
 blk12:
 Statements:
-  (v19: core::integer::u128) <- core::integer::U128Add::add(v1, v3)
+  (v19: core::integer::u128) <- core::integer::U128Add::add(v1 /* a */, v3 /* b */)
 End:
   Goto(blk11, {v19 -> v11})
 
@@ -1034,7 +1034,7 @@ fn bar(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -1053,7 +1053,7 @@ End:
 blk2:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk3,
     IsZeroResult::NonZero(v2) => blk4,
   })
@@ -1108,7 +1108,7 @@ fn bar(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -1127,7 +1127,7 @@ End:
 blk2:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk3,
     IsZeroResult::NonZero(v2) => blk4,
   })
@@ -1151,13 +1151,13 @@ End:
 
 blk6:
 Statements:
-  (v5: core::felt252) <- test::foo(v4)
+  (v5: core::felt252) <- test::foo(v4 /* n-1 */)
 End:
   Goto(blk5, {v5 -> v6})
 
 blk7:
 Statements:
-  (v8: core::felt252) <- core::felt252_sub(v0, v3)
+  (v8: core::felt252) <- core::felt252_sub(v0 /* lhs */, v3 /* rhs */)
 End:
   Goto(blk6, {v8 -> v4})
 
@@ -1187,7 +1187,7 @@ fn foo(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::foo(v0)
+  (v1: core::felt252) <- test::foo(v0 /* n */)
 End:
   Return(v1)
 
@@ -1195,7 +1195,7 @@ End:
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::foo(v0)
+  (v1: core::felt252) <- test::foo(v0 /* n */)
 End:
   Return(v1)
 
@@ -1233,7 +1233,7 @@ fn bar(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -1252,7 +1252,7 @@ End:
 blk2:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk3,
     IsZeroResult::NonZero(v2) => blk4,
   })
@@ -1276,13 +1276,13 @@ End:
 
 blk6:
 Statements:
-  (v5: core::felt252) <- test::bar(v4)
+  (v5: core::felt252) <- test::bar(v4 /* n-1 */)
 End:
   Goto(blk5, {v5 -> v6})
 
 blk7:
 Statements:
-  (v8: core::felt252) <- core::felt252_sub(v0, v3)
+  (v8: core::felt252) <- core::felt252_sub(v0 /* lhs */, v3 /* rhs */)
 End:
   Goto(blk6, {v8 -> v4})
 
@@ -1325,7 +1325,7 @@ fn baz(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -1354,7 +1354,7 @@ End:
 blk4:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk5,
     IsZeroResult::NonZero(v3) => blk6,
   })
@@ -1378,13 +1378,13 @@ End:
 
 blk8:
 Statements:
-  (v6: core::felt252) <- test::baz(v5)
+  (v6: core::felt252) <- test::baz(v5 /* n-1 */)
 End:
   Goto(blk7, {v6 -> v7})
 
 blk9:
 Statements:
-  (v9: core::felt252) <- core::felt252_sub(v0, v4)
+  (v9: core::felt252) <- core::felt252_sub(v0 /* lhs */, v4 /* rhs */)
 End:
   Goto(blk8, {v9 -> v5})
 
@@ -1427,7 +1427,7 @@ fn baz(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -1456,7 +1456,7 @@ End:
 blk4:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk5,
     IsZeroResult::NonZero(v3) => blk6,
   })
@@ -1480,13 +1480,13 @@ End:
 
 blk8:
 Statements:
-  (v6: core::felt252) <- test::bar(v5)
+  (v6: core::felt252) <- test::bar(v5 /* n-1 */)
 End:
   Goto(blk7, {v6 -> v7})
 
 blk9:
 Statements:
-  (v9: core::felt252) <- core::felt252_sub(v0, v4)
+  (v9: core::felt252) <- core::felt252_sub(v0 /* lhs */, v4 /* rhs */)
 End:
   Goto(blk8, {v9 -> v5})
 
@@ -1529,7 +1529,7 @@ fn baz(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -1558,7 +1558,7 @@ End:
 blk4:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk5,
     IsZeroResult::NonZero(v3) => blk6,
   })
@@ -1582,13 +1582,13 @@ End:
 
 blk8:
 Statements:
-  (v6: core::felt252) <- test::foo(v5)
+  (v6: core::felt252) <- test::foo(v5 /* n-1 */)
 End:
   Goto(blk7, {v6 -> v7})
 
 blk9:
 Statements:
-  (v9: core::felt252) <- core::felt252_sub(v0, v4)
+  (v9: core::felt252) <- core::felt252_sub(v0 /* lhs */, v4 /* rhs */)
 End:
   Goto(blk8, {v9 -> v5})
 
@@ -1621,9 +1621,9 @@ fn bar(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
-  (v2: core::felt252) <- test::bar(v0)
-  (v3: core::felt252) <- core::Felt252Add::add(v1, v2)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
+  (v2: core::felt252) <- test::bar(v0 /* n */)
+  (v3: core::felt252) <- core::Felt252Add::add(v1 /* bar(n) */, v2 /* bar(n) */)
 End:
   Return(v3)
 
@@ -1661,7 +1661,7 @@ End:
 
 blk6:
 Statements:
-  (v4: core::felt252) <- core::felt252_add(v1, v2)
+  (v4: core::felt252) <- core::felt252_add(v1 /* lhs */, v2 /* rhs */)
 End:
   Goto(blk5, {v4 -> v3})
 

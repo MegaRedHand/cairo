@@ -24,7 +24,7 @@ Parameters: v0: core::bool
 blk0 (root):
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* a */) {
     bool::False(v4) => blk1,
     bool::True(v2) => blk2,
   })

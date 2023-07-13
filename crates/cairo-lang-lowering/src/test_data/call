@@ -33,8 +33,8 @@ Parameters: v0: core::felt252
 blk0 (root):
 Statements:
   (v1: ()) <- struct_construct()
-  (v2: core::bool) <- bool::True(v1)
-  (v7: core::felt252, v6: ()) <- test::bar(v0, v2)
+  (v2: core::bool) <- bool::True(v1 /* true */)
+  (v7: core::felt252, v6: ()) <- test::bar(v0 /* a */, v2 /* b */)
   (v15: core::felt252) <- 5u
 End:
   Return(v7, v15)
@@ -79,7 +79,7 @@ Parameters:
 blk0 (root):
 Statements:
   (v0: ()) <- struct_construct()
-  (v1: core::option::Option::<core::felt252>) <- Option::None(v0)
-  (v2: core::bool) <- test::OptionTraitImpl::<core::felt252, core::felt252Drop>::is_some(v1)
+  (v1: core::option::Option::<core::felt252>) <- Option::None(v0 /* () */)
+  (v2: core::bool) <- test::OptionTraitImpl::<core::felt252, core::felt252Drop>::is_some(v1 /* x */)
 End:
   Return(v1)

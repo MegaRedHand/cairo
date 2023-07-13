@@ -41,7 +41,7 @@ Parameters: v0: test::MyEnum
 blk0 (root):
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* e */) {
     MyEnum::a(v1) => blk1,
     MyEnum::b(v6) => blk2,
     MyEnum::c(v9) => blk3,
@@ -144,7 +144,7 @@ Parameters: v0: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::bar(v0) {
+  Match(match test::bar(v0 /* a */) {
     MyEnum::a(v1, v2, v3) => blk1,
     MyEnum::b(v6, v7, v8) => blk2,
     MyEnum::c(v9, v10, v11) => blk3,
@@ -167,7 +167,7 @@ End:
 
 blk3:
 Statements:
-  (v12: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v10, v11)
+  (v12: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v10 /* bar(ref a) */, v11 /* bar(ref a) */)
 End:
   Goto(blk9, {v9 -> v27})
 
@@ -178,7 +178,7 @@ End:
 
 blk5:
 Statements:
-  (v19: (core::felt252, core::felt252)) <- struct_construct(v17, v18)
+  (v19: (core::felt252, core::felt252)) <- struct_construct(v17 /* bar(ref a) */, v18 /* bar(ref a) */)
 End:
   Goto(blk9, {v16 -> v27})
 
@@ -189,7 +189,7 @@ End:
 
 blk7:
 Statements:
-  (v24: (core::felt252,)) <- struct_construct(v23)
+  (v24: (core::felt252,)) <- struct_construct(v23 /* bar(ref a) */)
 End:
   Goto(blk9, {v22 -> v27})
 
@@ -264,43 +264,43 @@ End:
 
 blk1:
 Statements:
-  (v2: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v0, v1)
+  (v2: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v0 /* bar() */, v1 /* bar() */)
 End:
   Goto(blk9, {})
 
 blk2:
 Statements:
-  (v6: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v4, v5)
+  (v6: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v4 /* bar() */, v5 /* bar() */)
 End:
   Goto(blk9, {})
 
 blk3:
 Statements:
-  (v10: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v8, v9)
+  (v10: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v8 /* bar() */, v9 /* bar() */)
 End:
   Goto(blk9, {})
 
 blk4:
 Statements:
-  (v14: (core::felt252, core::felt252)) <- struct_construct(v12, v13)
+  (v14: (core::felt252, core::felt252)) <- struct_construct(v12 /* bar() */, v13 /* bar() */)
 End:
   Goto(blk9, {})
 
 blk5:
 Statements:
-  (v18: (core::felt252, core::felt252)) <- struct_construct(v16, v17)
+  (v18: (core::felt252, core::felt252)) <- struct_construct(v16 /* bar() */, v17 /* bar() */)
 End:
   Goto(blk9, {})
 
 blk6:
 Statements:
-  (v21: (core::felt252,)) <- struct_construct(v20)
+  (v21: (core::felt252,)) <- struct_construct(v20 /* bar() */)
 End:
   Goto(blk9, {})
 
 blk7:
 Statements:
-  (v24: (core::felt252,)) <- struct_construct(v23)
+  (v24: (core::felt252,)) <- struct_construct(v23 /* bar() */)
 End:
   Goto(blk9, {})
 
@@ -361,7 +361,18 @@ Parameters: v29: core::RangeCheck, v0: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::bar(v29, v0) {
+  Match(match test::bar(v29 /* fn foo(mut z: felt252) {
+    match bar(ref z) {
+        MyEnum::a((x, (y, z))) => {},
+        MyEnum::b((x, y)) => {},
+        MyEnum::c(x) => {},
+        MyEnum::d((x, y)) => {},
+        MyEnum::e(x) => {},
+        MyEnum::f((x,)) => {},
+        MyEnum::g(x) => {},
+        MyEnum::h(x) => {},
+    }
+} */, v0 /* z */) {
     MyEnum::a(v30, v1, v2, v3) => blk1,
     MyEnum::b(v31, v6, v7, v8) => blk2,
     MyEnum::c(v32, v9, v10, v11) => blk3,
@@ -384,7 +395,7 @@ End:
 
 blk3:
 Statements:
-  (v12: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v10, v11)
+  (v12: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v10 /* bar(ref z) */, v11 /* bar(ref z) */)
 End:
   Goto(blk9, {v32 -> v38})
 
@@ -395,7 +406,7 @@ End:
 
 blk5:
 Statements:
-  (v19: (core::felt252, core::felt252)) <- struct_construct(v17, v18)
+  (v19: (core::felt252, core::felt252)) <- struct_construct(v17 /* bar(ref z) */, v18 /* bar(ref z) */)
 End:
   Goto(blk9, {v34 -> v38})
 
@@ -406,7 +417,7 @@ End:
 
 blk7:
 Statements:
-  (v24: (core::felt252,)) <- struct_construct(v23)
+  (v24: (core::felt252,)) <- struct_construct(v23 /* bar(ref z) */)
 End:
   Goto(blk9, {v36 -> v38})
 
@@ -468,7 +479,19 @@ Parameters: v57: core::RangeCheck, v0: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::bar(v57, v0) {
+  Match(match test::bar(v57 /* fn foo(mut z: felt252) {
+    let y = bar(ref z);
+    match y {
+        MyEnum::a((x, (y, z))) => {},
+        MyEnum::b((x, y)) => {},
+        MyEnum::c(x) => {},
+        MyEnum::d((x, y)) => {},
+        MyEnum::e(x) => {},
+        MyEnum::f((x,)) => {},
+        MyEnum::g(x) => {},
+        MyEnum::h(x) => {},
+    }
+} */, v0 /* z */) {
     MyEnum::a(v58, v1, v2, v3) => blk1,
     MyEnum::b(v59, v6, v7, v8) => blk2,
     MyEnum::c(v60, v11, v12, v13) => blk3,
@@ -481,43 +504,43 @@ End:
 
 blk1:
 Statements:
-  (v4: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v2, v3)
+  (v4: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v2 /* bar(ref z) */, v3 /* bar(ref z) */)
 End:
   Goto(blk9, {v58 -> v67})
 
 blk2:
 Statements:
-  (v9: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v7, v8)
+  (v9: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v7 /* bar(ref z) */, v8 /* bar(ref z) */)
 End:
   Goto(blk9, {v59 -> v67})
 
 blk3:
 Statements:
-  (v14: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v12, v13)
+  (v14: (core::felt252, (core::felt252, core::felt252))) <- struct_construct(v12 /* bar(ref z) */, v13 /* bar(ref z) */)
 End:
   Goto(blk9, {v60 -> v67})
 
 blk4:
 Statements:
-  (v19: (core::felt252, core::felt252)) <- struct_construct(v17, v18)
+  (v19: (core::felt252, core::felt252)) <- struct_construct(v17 /* bar(ref z) */, v18 /* bar(ref z) */)
 End:
   Goto(blk9, {v61 -> v67})
 
 blk5:
 Statements:
-  (v24: (core::felt252, core::felt252)) <- struct_construct(v22, v23)
+  (v24: (core::felt252, core::felt252)) <- struct_construct(v22 /* bar(ref z) */, v23 /* bar(ref z) */)
 End:
   Goto(blk9, {v62 -> v67})
 
 blk6:
 Statements:
-  (v28: (core::felt252,)) <- struct_construct(v27)
+  (v28: (core::felt252,)) <- struct_construct(v27 /* bar(ref z) */)
 End:
   Goto(blk9, {v63 -> v67})
 
 blk7:
 Statements:
-  (v32: (core::felt252,)) <- struct_construct(v31)
+  (v32: (core::felt252,)) <- struct_construct(v31 /* bar(ref z) */)
 End:
   Goto(blk9, {v64 -> v67})
 

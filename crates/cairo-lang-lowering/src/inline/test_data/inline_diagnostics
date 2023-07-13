@@ -27,7 +27,7 @@ error: Cannot inline a function that might call itself.
 Parameters: v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
-  (v3: core::felt252, v2: core::felt252) <- test::foo(v0, v1)
+  (v3: core::felt252, v2: core::felt252) <- test::foo(v0 /* a */, v1 /* b */)
 End:
   Return(v3, v1)
 
@@ -65,7 +65,7 @@ fn bar(n: felt252) -> felt252 {
 Parameters: v0: core::felt252
 blk0 (root):
 Statements:
-  (v1: core::felt252) <- test::bar(v0)
+  (v1: core::felt252) <- test::bar(v0 /* n */)
 End:
   Return(v1)
 
@@ -84,7 +84,7 @@ End:
 blk2:
 Statements:
 End:
-  Match(match core::felt252_is_zero(v0) {
+  Match(match core::felt252_is_zero(v0 /* n */) {
     IsZeroResult::Zero => blk3,
     IsZeroResult::NonZero(v2) => blk4,
   })

@@ -28,10 +28,10 @@ extern fn i(ref a: felt252, b: felt252) -> ((felt252,),) nopanic;
 Parameters: v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
-  (v3: core::felt252, v2: core::felt252) <- test::f(v0, v1)
-  (v5: core::felt252, v4: core::felt252) <- test::g(v3, v1)
-  (v8: core::felt252, v6: core::felt252, v7: core::felt252) <- test::h(v5, v1)
-  (v10: core::felt252, v9: (core::felt252,)) <- test::i(v8, v1)
+  (v3: core::felt252, v2: core::felt252) <- test::f(v0 /* a */, v1 /* b */)
+  (v5: core::felt252, v4: core::felt252) <- test::g(v3 /* a */, v1 /* b */)
+  (v8: core::felt252, v6: core::felt252, v7: core::felt252) <- test::h(v5 /* a */, v1 /* b */)
+  (v10: core::felt252, v9: (core::felt252,)) <- test::i(v8 /* a */, v1 /* b */)
   (v11: ()) <- struct_construct()
 End:
   Return(v10, v11)
@@ -73,7 +73,7 @@ Parameters: v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::f(v0, v1) {
+  Match(match test::f(v0 /* a */, v1 /* b */) {
     MyEnum::A(v2, v3) => blk1,
     MyEnum::B(v5, v6) => blk2,
     MyEnum::C(v9, v10, v11) => blk3,
@@ -81,28 +81,28 @@ End:
 
 blk1:
 Statements:
-  (v4: test::MyEnum) <- MyEnum::A(v3)
+  (v4: test::MyEnum) <- MyEnum::A(v3 /* f(ref a, b) */)
 End:
   Goto(blk4, {v2 -> v15, v4 -> v14})
 
 blk2:
 Statements:
-  (v7: (core::felt252,)) <- struct_construct(v6)
-  (v8: test::MyEnum) <- MyEnum::B(v7)
+  (v7: (core::felt252,)) <- struct_construct(v6 /* f(ref a, b) */)
+  (v8: test::MyEnum) <- MyEnum::B(v7 /* f(ref a, b) */)
 End:
   Goto(blk4, {v5 -> v15, v8 -> v14})
 
 blk3:
 Statements:
-  (v12: (core::felt252, core::felt252)) <- struct_construct(v10, v11)
-  (v13: test::MyEnum) <- MyEnum::C(v12)
+  (v12: (core::felt252, core::felt252)) <- struct_construct(v10 /* f(ref a, b) */, v11 /* f(ref a, b) */)
+  (v13: test::MyEnum) <- MyEnum::C(v12 /* f(ref a, b) */)
 End:
   Goto(blk4, {v9 -> v15, v13 -> v14})
 
 blk4:
 Statements:
 End:
-  Match(match_enum(v14) {
+  Match(match_enum(v14 /* x */) {
     MyEnum::A(v16) => blk5,
     MyEnum::B(v17) => blk6,
     MyEnum::C(v18) => blk7,
@@ -165,7 +165,7 @@ Parameters: v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::f(v0, v1) {
+  Match(match test::f(v0 /* a */, v1 /* b */) {
     MyEnum::A(v2) => blk1,
     MyEnum::B(v3) => blk2,
     MyEnum::C(v4, v5) => blk3,
@@ -227,7 +227,7 @@ Parameters: v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::f(v0, v1) {
+  Match(match test::f(v0 /* a */, v1 /* b */) {
     MyEnum::A(v2, v3) => blk1,
     MyEnum::B(v4, v5) => blk2,
     MyEnum::C(v6, v7, v8) => blk3,
@@ -290,7 +290,14 @@ Parameters: v20: core::RangeCheck, v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::f(v20, v0, v1) {
+  Match(match test::f(v20 /* fn foo(ref a: felt252, b: felt252) {
+  let x = f(ref a, b);
+  match x {
+    MyEnum::A(y) => (),
+    MyEnum::B(y) => (),
+    MyEnum::C(y) => (),
+  }
+} */, v0 /* a */, v1 /* b */) {
     MyEnum::A(v21, v2, v3) => blk1,
     MyEnum::B(v22, v5, v6) => blk2,
     MyEnum::C(v23, v9, v10, v11) => blk3,
@@ -298,28 +305,28 @@ End:
 
 blk1:
 Statements:
-  (v4: test::MyEnum) <- MyEnum::A(v3)
+  (v4: test::MyEnum) <- MyEnum::A(v3 /* f(ref a, b) */)
 End:
   Goto(blk4, {v21 -> v24, v2 -> v15, v4 -> v14})
 
 blk2:
 Statements:
-  (v7: (core::felt252,)) <- struct_construct(v6)
-  (v8: test::MyEnum) <- MyEnum::B(v7)
+  (v7: (core::felt252,)) <- struct_construct(v6 /* f(ref a, b) */)
+  (v8: test::MyEnum) <- MyEnum::B(v7 /* f(ref a, b) */)
 End:
   Goto(blk4, {v22 -> v24, v5 -> v15, v8 -> v14})
 
 blk3:
 Statements:
-  (v12: (core::felt252, core::felt252)) <- struct_construct(v10, v11)
-  (v13: test::MyEnum) <- MyEnum::C(v12)
+  (v12: (core::felt252, core::felt252)) <- struct_construct(v10 /* f(ref a, b) */, v11 /* f(ref a, b) */)
+  (v13: test::MyEnum) <- MyEnum::C(v12 /* f(ref a, b) */)
 End:
   Goto(blk4, {v23 -> v24, v9 -> v15, v13 -> v14})
 
 blk4:
 Statements:
 End:
-  Match(match_enum(v14) {
+  Match(match_enum(v14 /* x */) {
     MyEnum::A(v16) => blk5,
     MyEnum::B(v17) => blk6,
     MyEnum::C(v18) => blk7,
@@ -382,7 +389,13 @@ Parameters: v11: core::RangeCheck, v0: core::felt252, v1: core::felt252
 blk0 (root):
 Statements:
 End:
-  Match(match test::f(v11, v0, v1) {
+  Match(match test::f(v11 /* fn foo(ref a: felt252, b: felt252) -> felt252 {
+  match f(ref a, b) {
+    MyEnum::A(y) => y,
+    MyEnum::B((y,)) => y,
+    MyEnum::C((y,_)) => y,
+  }
+} */, v0 /* a */, v1 /* b */) {
     MyEnum::A(v12, v2, v3) => blk1,
     MyEnum::B(v13, v4, v5) => blk2,
     MyEnum::C(v14, v6, v7, v8) => blk3,
@@ -441,7 +454,7 @@ Parameters: v0: core::array::Array::<core::felt252>, v1: (core::felt252,)
 blk0 (root):
 Statements:
 End:
-  Match(match test::f(v0, v1) {
+  Match(match test::f(v0 /* arr */, v1 /* b */) {
     MyEnum::A(v2, v3, v4) => blk1,
   })
 
@@ -476,7 +489,11 @@ Parameters: v6: core::RangeCheck, v7: core::gas::GasBuiltin
 blk0 (root):
 Statements:
 End:
-  Match(match core::gas::withdraw_gas(v6, v7) {
+  Match(match core::gas::withdraw_gas(v6 /* fn foo() {
+  gas::withdraw_gas();
+} */, v7 /* fn foo() {
+  gas::withdraw_gas();
+} */) {
     Option::Some(v8, v9) => blk1,
     Option::None(v10, v11) => blk2,
   })
@@ -484,14 +501,14 @@ End:
 blk1:
 Statements:
   (v0: ()) <- struct_construct()
-  (v1: core::option::Option::<()>) <- Option::Some(v0)
+  (v1: core::option::Option::<()>) <- Option::Some(v0 /* gas::withdraw_gas() */)
 End:
   Goto(blk3, {v8 -> v12, v9 -> v13})
 
 blk2:
 Statements:
   (v2: ()) <- struct_construct()
-  (v3: core::option::Option::<()>) <- Option::None(v2)
+  (v3: core::option::Option::<()>) <- Option::None(v2 /* gas::withdraw_gas() */)
 End:
   Goto(blk3, {v10 -> v12, v11 -> v13})
 
@@ -527,7 +544,11 @@ Parameters: v5: core::RangeCheck, v6: core::gas::GasBuiltin
 blk0 (root):
 Statements:
 End:
-  Match(match core::gas::withdraw_gas(v5, v6) {
+  Match(match core::gas::withdraw_gas(v5 /* fn foo() -> Option::<()> {
+  gas::withdraw_gas()
+} */, v6 /* fn foo() -> Option::<()> {
+  gas::withdraw_gas()
+} */) {
     Option::Some(v7, v8) => blk1,
     Option::None(v9, v10) => blk2,
   })
@@ -535,14 +556,14 @@ End:
 blk1:
 Statements:
   (v0: ()) <- struct_construct()
-  (v1: core::option::Option::<()>) <- Option::Some(v0)
+  (v1: core::option::Option::<()>) <- Option::Some(v0 /* gas::withdraw_gas() */)
 End:
   Goto(blk3, {v7 -> v11, v8 -> v12, v1 -> v4})
 
 blk2:
 Statements:
   (v2: ()) <- struct_construct()
-  (v3: core::option::Option::<()>) <- Option::None(v2)
+  (v3: core::option::Option::<()>) <- Option::None(v2 /* gas::withdraw_gas() */)
 End:
   Goto(blk3, {v9 -> v11, v10 -> v12, v3 -> v4})
 
@@ -577,7 +598,11 @@ Parameters: v5: core::RangeCheck, v6: core::gas::GasBuiltin
 blk0 (root):
 Statements:
 End:
-  Match(match core::gas::withdraw_gas(v5, v6) {
+  Match(match core::gas::withdraw_gas(v5 /* fn foo() -> Option::<()> {
+  return gas::withdraw_gas();
+} */, v6 /* fn foo() -> Option::<()> {
+  return gas::withdraw_gas();
+} */) {
     Option::Some(v7, v8) => blk1,
     Option::None(v9, v10) => blk2,
   })
@@ -585,14 +610,14 @@ End:
 blk1:
 Statements:
   (v0: ()) <- struct_construct()
-  (v1: core::option::Option::<()>) <- Option::Some(v0)
+  (v1: core::option::Option::<()>) <- Option::Some(v0 /* gas::withdraw_gas() */)
 End:
   Goto(blk3, {v7 -> v11, v8 -> v12, v1 -> v4})
 
 blk2:
 Statements:
   (v2: ()) <- struct_construct()
-  (v3: core::option::Option::<()>) <- Option::None(v2)
+  (v3: core::option::Option::<()>) <- Option::None(v2 /* gas::withdraw_gas() */)
 End:
   Goto(blk3, {v9 -> v11, v10 -> v12, v3 -> v4})
 

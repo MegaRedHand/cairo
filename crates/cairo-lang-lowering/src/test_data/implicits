@@ -37,14 +37,14 @@ impl U256TryIntoU64 of TryInto<u256, u64> {
 Parameters: v41: core::RangeCheck, v0: core::integer::u256
 blk0 (root):
 Statements:
-  (v3: core::integer::u128, v4: core::integer::u128) <- struct_destructure(v0)
-  (v5: core::integer::u128, v6: @core::integer::u128) <- snapshot(v4)
+  (v3: core::integer::u128, v4: core::integer::u128) <- struct_destructure(v0 /* self */)
+  (v5: core::integer::u128, v6: @core::integer::u128) <- snapshot(v4 /* self */)
   (v7: core::integer::u128) <- 0u
-  (v8: core::integer::u128, v9: @core::integer::u128) <- snapshot(v7)
-  (v19: core::integer::u128) <- desnap(v6)
-  (v20: core::integer::u128) <- desnap(v9)
+  (v8: core::integer::u128, v9: @core::integer::u128) <- snapshot(v7 /* 0 */)
+  (v19: core::integer::u128) <- desnap(v6 /* lhs */)
+  (v20: core::integer::u128) <- desnap(v9 /* rhs */)
 End:
-  Match(match core::integer::u128_eq(v19, v20) {
+  Match(match core::integer::u128_eq(v19 /* *lhs */, v20 /* *rhs */) {
     bool::False => blk1,
     bool::True => blk2,
   })
@@ -56,17 +56,19 @@ End:
 
 blk2:
 Statements:
-  (v52: core::RangeCheck, v13: core::option::Option::<core::integer::u64>) <- core::integer::DowncastableTryInto::<core::integer::u128, core::integer::u64, core::integer::DowncastableU128U64>::try_into(v41, v3)
+  (v52: core::RangeCheck, v13: core::option::Option::<core::integer::u64>) <- core::integer::DowncastableTryInto::<core::integer::u128, core::integer::u64, core::integer::DowncastableU128U64>::try_into(v41 /* fn foo(a: u256) -> u64 {
+    U256TryIntoU64::try_into(a).unwrap()
+} */, v3 /* self */)
 End:
-  Match(match_enum(v13) {
+  Match(match_enum(v13 /* self */) {
     Option::Some(v26) => blk3,
     Option::None(v27) => blk4,
   })
 
 blk3:
 Statements:
-  (v38: (core::integer::u64,)) <- struct_construct(v26)
-  (v39: core::panics::PanicResult::<(core::integer::u64,)>) <- PanicResult::Ok(v38)
+  (v38: (core::integer::u64,)) <- struct_construct(v26 /* U256TryIntoU64::try_into(a).unwrap() */)
+  (v39: core::panics::PanicResult::<(core::integer::u64,)>) <- PanicResult::Ok(v38 /* U256TryIntoU64::try_into(a).unwrap() */)
 End:
   Return(v52, v39)
 
@@ -79,10 +81,18 @@ blk5:
 Statements:
   (v35: core::array::Array::<core::felt252>) <- core::array::array_new::<core::felt252>()
   (v17: core::felt252) <- 29721761890975875353235833581453094220424382983267374u
-  (v36: core::array::Array::<core::felt252>) <- core::array::array_append::<core::felt252>(v35, v17)
+  (v36: core::array::Array::<core::felt252>) <- core::array::array_append::<core::felt252>(v35 /* self */, v17 /* value */)
   (v33: core::panics::Panic) <- struct_construct()
-  (v34: (core::panics::Panic, core::array::Array::<core::felt252>)) <- struct_construct(v33, v36)
-  (v40: core::panics::PanicResult::<(core::integer::u64,)>) <- PanicResult::Err(v34)
+  (v34: (core::panics::Panic, core::array::Array::<core::felt252>)) <- struct_construct(v33 /* panic({
+            let mut __array_builder_macro_result__ = ArrayTrait::new();
+            array::ArrayTrait::append(ref __array_builder_macro_result__, err_code);
+            __array_builder_macro_result__
+        }) */, v36 /* __array_builder_macro_result__ */)
+  (v40: core::panics::PanicResult::<(core::integer::u64,)>) <- PanicResult::Err(v34 /* panic({
+            let mut __array_builder_macro_result__ = ArrayTrait::new();
+            array::ArrayTrait::append(ref __array_builder_macro_result__, err_code);
+            __array_builder_macro_result__
+        }) */)
 End:
   Return(v45, v40)
 

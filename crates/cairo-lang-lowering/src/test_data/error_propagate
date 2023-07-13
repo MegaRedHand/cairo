@@ -23,7 +23,7 @@ Parameters: v0: core::result::Result::<core::result::Result::<core::integer::u12
 blk0 (root):
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* a */) {
     Result::Ok(v1) => blk1,
     Result::Err(v2) => blk4,
   })
@@ -31,7 +31,7 @@ End:
 blk1:
 Statements:
 End:
-  Match(match_enum(v1) {
+  Match(match_enum(v1 /* a? */) {
     Result::Ok(v5) => blk2,
     Result::Err(v6) => blk3,
   })
@@ -39,18 +39,18 @@ End:
 blk2:
 Statements:
   (v9: core::felt252) <- 1u
-  (v10: core::result::Result::<core::felt252, core::felt252>) <- Result::Ok(v9)
+  (v10: core::result::Result::<core::felt252, core::felt252>) <- Result::Ok(v9 /* 1 */)
 End:
   Return(v10)
 
 blk3:
 Statements:
-  (v7: core::result::Result::<core::felt252, core::felt252>) <- Result::Err(v6)
+  (v7: core::result::Result::<core::felt252, core::felt252>) <- Result::Err(v6 /* a?? */)
 End:
   Return(v7)
 
 blk4:
 Statements:
-  (v3: core::result::Result::<core::felt252, core::felt252>) <- Result::Err(v2)
+  (v3: core::result::Result::<core::felt252, core::felt252>) <- Result::Err(v2 /* a? */)
 End:
   Return(v3)

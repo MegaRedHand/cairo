@@ -25,7 +25,7 @@ blk0 (root):
 Statements:
   (v0: core::felt252) <- 1u
   (v1: core::felt252) <- 2u
-  (v2: (core::felt252, core::felt252)) <- struct_construct(v0, v1)
+  (v2: (core::felt252, core::felt252)) <- struct_construct(v0 /* 1 */, v1 /* 2 */)
   (v7: ()) <- struct_construct()
 End:
   Return(v7)

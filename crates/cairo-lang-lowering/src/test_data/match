@@ -27,7 +27,7 @@ blk0 (root):
 Statements:
   (v1: core::felt252) <- 7u
 End:
-  Match(match core::felt252_is_zero(v1) {
+  Match(match core::felt252_is_zero(v1 /* x */) {
     IsZeroResult::Zero => blk1,
     IsZeroResult::NonZero(v2) => blk2,
   })
@@ -35,7 +35,7 @@ End:
 blk1:
 Statements:
   (v3: core::felt252) <- 1u
-  (v6: core::felt252) <- core::felt252_add(v0, v3)
+  (v6: core::felt252) <- core::felt252_add(v0 /* lhs */, v3 /* rhs */)
 End:
   Goto(blk3, {v6 -> v5})
 
@@ -77,21 +77,23 @@ blk0 (root):
 Statements:
   (v1: core::integer::u32) <- 0u
 End:
-  Match(match core::array::array_get::<core::felt252>(v7, v0, v1) {
+  Match(match core::array::array_get::<core::felt252>(v7 /* fn foo(a: @Array::<felt252>) -> Option<Box<@felt252>> {
+  array_get(a, 0_u32)
+} */, v0 /* a */, v1 /* 0_u32 */) {
     Option::Some(v8, v2) => blk1,
     Option::None(v9) => blk2,
   })
 
 blk1:
 Statements:
-  (v3: core::option::Option::<core::box::Box::<@core::felt252>>) <- Option::Some(v2)
+  (v3: core::option::Option::<core::box::Box::<@core::felt252>>) <- Option::Some(v2 /* array_get(a, 0_u32) */)
 End:
   Goto(blk3, {v8 -> v10, v3 -> v6})
 
 blk2:
 Statements:
   (v4: ()) <- struct_construct()
-  (v5: core::option::Option::<core::box::Box::<@core::felt252>>) <- Option::None(v4)
+  (v5: core::option::Option::<core::box::Box::<@core::felt252>>) <- Option::None(v4 /* array_get(a, 0_u32) */)
 End:
   Goto(blk3, {v9 -> v10, v5 -> v6})
 
@@ -250,7 +252,7 @@ Parameters: v0: test::EmptyEnum
 blk0 (root):
 Statements:
 End:
-  Match(match_enum(v0) {
+  Match(match_enum(v0 /* e */) {
   })
 
 //! > ==========================================================================
